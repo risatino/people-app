@@ -1,0 +1,24 @@
+<h1>My Peoples Collection App</h1>
+<div ng-app="app">
+   {{1 + 1}}
+   <div ng-controller="contactCtrl"> 
+    <div ng-repeat="contact in contacts track by $index">
+      <h2 ng-click="toggleBio(contact)">{{ contact.name }}</h2>
+        <div ng-class="{strike: contact.bioVisible}">
+          <h5>{{ contact.bio }}</h5>
+          <p ng-click="deleteContact($index)">Delete</p>
+        </div>
+    </div>
+
+    <div class="form">
+      <input type="text" ng-model="formName" placeholder="Contact's Name">
+      <input type="text" ng-model="formBio" placeholder="Bio">
+      <button ng-click="addContact(formName, formBio)">Submit</button>
+    </div>
+
+    <div>
+      <p>Number of Contacts: {{ contacts.length }}</p>
+    </div>
+
+  </div>
+</div>
