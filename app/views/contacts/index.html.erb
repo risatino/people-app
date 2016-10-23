@@ -5,7 +5,7 @@
     <input type="text" ng-model="nameFilter">
     <button ng-click="toggleOrder('name')">Order by Name</button>
     <button ng-click="toggleOrder('bio')">Order by Bio</button>
-    <div ng-repeat="contact in contacts | filter: {nameFilter} | orderBy: orderAttribute ">
+    <div ng-repeat="contact in contacts | filter: { name: nameFilter } | orderBy: orderAttribute:descending track by $index ">
       <h2 ng-click="toggleBio(contact)">{{ contact.name }}</h2>
         <div ng-if="contact.bioVisible">
           <h5>{{ contact.bio }}</h5>

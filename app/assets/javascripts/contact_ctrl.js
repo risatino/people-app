@@ -35,10 +35,16 @@ angular.module("app").controller("contactCtrl", function($scope, $http) {
     };
 
     $scope.deleteContact = function($index) {
-      $scope.contacts.splice(index, 1);
+      $scope.people.splice(index, 1);
     };
 
     $scope.toggleOrder = function(attribute) {
+      if (attribute != $scope.orderAttribute) {
+        $scope.descending = false;
+      } else {
+        $scope.descending = true;
+      }
+
       $scope.orderAttribute = attribute;
     };
   });
