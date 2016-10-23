@@ -1,16 +1,20 @@
-<h1>My Peoples Collection App</h1>
+<h1>Contacts Collection App</h1>
 <div ng-app="app">
    {{1 + 1}}
-   <div ng-controller="contactCtrl"> 
-    <div ng-repeat="contact in contacts track by $index">
+   <div ng-controller="contactCtrl" ng-init="setup()"> 
+    <input type="text" ng-model="nameFilter">
+    <div ng-repeat="contact in contacts | filter: {nameFilter}">
       <h2 ng-click="toggleBio(contact)">{{ contact.name }}</h2>
-        <div ng-class="{strike: contact.bioVisible}">
+        <div ng-if="contact.bioVisible">
           <h5>{{ contact.bio }}</h5>
           <p ng-click="deleteContact($index)">Delete</p>
         </div>
     </div>
 
     <div class="form">
+      <ul>
+        <li ng-repeat="error in errors">{{ error }}</li>
+      </ul>
       <input type="text" ng-model="formName" placeholder="Contact's Name">
       <input type="text" ng-model="formBio" placeholder="Bio">
       <button ng-click="addContact(formName, formBio)">Submit</button>

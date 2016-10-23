@@ -1,34 +1,12 @@
 (function(){
   "use strict";
 
-  angular.module("app").controller("contactCtrl", function($scope) {
-    $scope.contacts = [
-                        { 
-                          name: "Eric Cartman", 
-                          bio: "He's a dood", 
-                          bioVisible: false 
-                        }, 
-                        { 
-                          name: "Kenny McCormick", 
-                          bio: "He's an orange dud", 
-                          bioVisible: false 
-                        },
-                        { 
-                          name: "Butters", 
-                          bio: "He wears a baby blue t-shirt", 
-                          bioVisible: false
-                        },
-                        { 
-                          name: "Stan Marsh", 
-                          bio: "He wears the same red, blue and maroon outfit", 
-                          bioVisible: false
-                        },
-                        { 
-                          name: "Kyle Broflovski", 
-                          bio: "He wears green and brown all day", 
-                          bioVisible: false
-                        }
-                      ];
+angular.module("app").controller("contactCtrl", function($scope, $http) {
+  $scope.setup = function() {
+    $http.get("/api/v1/people.json".then(function(response) {
+      $scope.contacts = response.data;
+    }); 
+  };
 
     $scope.toggleBio = function(contact) {
       // contact.bioVisible = !contact.bioVisible;
@@ -40,19 +18,23 @@
     };
 
     $scope.addContact = function(newName, newBio) {
-      if (newName && newBio) {
         var newContact = {
                           name: newName,
                           bio: newBio,
                           bioVisible: false
                          };
-        $scope.contacts.push(newContact);
-        $scope.formName = null;
-        $scope.formBio = null;
-      }
+
+        $http.post("/api/v1/people.json", newContact).then(function(response) {
+          $scope.contacts.push(response.data);
+          $scope.formName = null;
+          $scope.formBio = null;
+          $scope.errors = null;
+        }, function(errorResponse) {
+          $scope.errors = errorResponse.data.errors;
+        });
     };
 
-    $scope.deleteContact = function(index) {
+    $scope.deleteContact = function($index) {
       $scope.contacts.splice(index, 1);
     };
   });
