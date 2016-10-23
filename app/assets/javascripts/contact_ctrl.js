@@ -37,5 +37,9 @@ angular.module("app").controller("contactCtrl", function($scope, $http) {
     $scope.deleteContact = function($index) {
       $scope.contacts.splice(index, 1);
     };
+
+    $scope.toggleOrder = function(attribute) {
+      $scope.orderAttribute = attribute;
+    };
   });
 }());
