@@ -4,17 +4,17 @@
 angular.module("app").controller("contactCtrl", function($scope, $http) {
   $scope.setup = function() {
     $http.get("/api/v1/people.json".then(function(response) {
-      $scope.contacts = response.data;
-    }); 
+      $scope.people = response.data;
+    })); 
   };
 
     $scope.toggleBio = function(contact) {
-      // contact.bioVisible = !contact.bioVisible;
-      if (contact.bioVisible) {
-        contact.bioVisible = true;
-      } else {
-        contact.bioVisible = true;
-      }
+      contact.bioVisible = !contact.bioVisible;
+      // if (contact.bioVisible) {
+      //   contact.bioVisible = true;
+      // } else {
+      //   contact.bioVisible = true;
+      // }
     };
 
     $scope.addContact = function(newName, newBio) {
@@ -25,7 +25,7 @@ angular.module("app").controller("contactCtrl", function($scope, $http) {
                          };
 
         $http.post("/api/v1/people.json", newContact).then(function(response) {
-          $scope.contacts.push(response.data);
+          $scope.people.push(response.data);
           $scope.formName = null;
           $scope.formBio = null;
           $scope.errors = null;
@@ -35,14 +35,15 @@ angular.module("app").controller("contactCtrl", function($scope, $http) {
     };
 
     $scope.deleteContact = function($index) {
-      $scope.people.splice(index, 1);
+      var index = $scope.contacts.indexOf(contactObj);
+      $scope.contacts.splice(index, 1);
     };
 
     $scope.toggleOrder = function(attribute) {
       if (attribute != $scope.orderAttribute) {
         $scope.descending = false;
       } else {
-        $scope.descending = true;
+        $scope.descending = !$scope.descending;
       }
 
       $scope.orderAttribute = attribute;
